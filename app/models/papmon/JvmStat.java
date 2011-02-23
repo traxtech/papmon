@@ -31,6 +31,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.Index;
 import play.db.jpa.Model;
 
 /**
@@ -41,6 +42,7 @@ import play.db.jpa.Model;
 @Table(name = "papmon_jvmstat")
 public class JvmStat extends Model {
 
+    @Index(name="idx_papmon_jvm_created")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
     public Date created;

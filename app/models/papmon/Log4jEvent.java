@@ -29,6 +29,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.apache.log4j.spi.LoggingEvent;
+import org.hibernate.annotations.Index;
 import play.db.jpa.Model;
 
 /**
@@ -36,8 +37,10 @@ import play.db.jpa.Model;
  * @author Arnaud Rolly
  */
 @Entity
-@Table(name="papmon_log4jevent")
+@Table(name = "papmon_log4jevent")
 public class Log4jEvent extends Model {
+
+    @Index(name = "idx_papmon_l4j_created")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
     public Date created;
@@ -48,5 +51,4 @@ public class Log4jEvent extends Model {
         created = new Date(le.timeStamp);
         level = le.getLevel().toString();
     }
-
 }

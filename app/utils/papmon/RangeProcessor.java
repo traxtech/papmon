@@ -22,25 +22,13 @@
  */
 package utils.papmon;
 
-import models.papmon.Log4jEvent;
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.spi.LoggingEvent;
+import java.util.Date;
 
 /**
  *
  * @author Arnaud Rolly
  */
-public class Log4jAppender extends AppenderSkeleton {
+public abstract class RangeProcessor {
 
-    @Override
-    protected void append(LoggingEvent le) {
-        new Log4jEvent(le).save();
-    }
-
-    public void close() {
-    }
-
-    public boolean requiresLayout() {
-        return false;
-    }
+    public abstract void processRange(Date begin, Date end, ValueProcessor vpro);
 }

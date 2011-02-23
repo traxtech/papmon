@@ -36,7 +36,6 @@ public class MonitorSetup extends Job {
 
     @Override
     public void doJob() throws Exception {
-        System.err.println("APPENDER ADDED");
-        Logger.log4j.addAppender(new Log4jAppender());
+        Logger.log4j.getRootLogger().addAppender(new Log4jAppender());
     }
 }

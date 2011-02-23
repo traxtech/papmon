@@ -24,13 +24,14 @@ package tags.papmon;
 
 import groovy.lang.Closure;
 import java.io.PrintWriter;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import models.papmon.JvmStat;
 import play.templates.FastTags;
 import play.templates.GroovyTemplate.ExecutableTemplate;
-import utils.papmon.LineChartUrlBuilder;
+import utils.papmon.RangeProcessor;
+import utils.papmon.ValueProcessor;
 
 /**
  *
@@ -39,27 +40,48 @@ import utils.papmon.LineChartUrlBuilder;
 @FastTags.Namespace("papmon.jvm")
 public class JvmTags extends FastTags {
 
-    public static void _freeMemory(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) {
-        String title = (String)args.get("title");
-        int width = (Integer)args.get("width");
-        int height = (Integer)args.get("height");
-        LineChartUrlBuilder lcBuilder = new LineChartUrlBuilder(title, width, height);
-        Calendar beginRange = Calendar.getInstance();
-        beginRange.set(Calendar.SECOND, 0);
-        beginRange.set(Calendar.MILLISECOND, 0);
-        Calendar endRange = (Calendar)beginRange.clone();
-        endRange.add(Calendar.HOUR, -1);
-        List<JvmStat> stats = JvmStat.find("created BETWEEN ? AND ?", endRange.getTime(), beginRange.getTime()).fetch();
-        for (JvmStat stat : stats) {
-            long freeMemoryMb = stat.freeMemory/1024/1024;
-            lcBuilder.addValue(freeMemoryMb);
+    private static final RangeProcessor RP_FREEMEMORY = new RangeProcessor() {
+
+        @Override
+        public void processRange(Date begin, Date end, ValueProcessor vpro) {
+            List<JvmStat> stats = JvmStat.find("created BETWEEN ? AND ?", begin, end).fetch();
+            for (JvmStat stat : stats) {
+                vpro.processValue(stat.freeMemory / 1024d / 1024d);
+            }
         }
-        lcBuilder.finish();
-        System.err.println(lcBuilder.toString());
-        out.print("<img src=\"");
-        out.print(lcBuilder.toString());
-        out.print("\" alt=\"");
-        out.print(title);
-        out.print("\"/>");
+    };
+
+    private static final RangeProcessor RP_MAXMEMORY = new RangeProcessor() {
+
+        @Override
+        public void processRange(Date begin, Date end, ValueProcessor vpro) {
+            List<JvmStat> stats = JvmStat.find("created BETWEEN ? AND ?", begin, end).fetch();
+            for (JvmStat stat : stats) {
+                vpro.processValue(stat.maxMemory / 1024d / 1024d);
+            }
+        }
+    };
+
+    private static final RangeProcessor PROC_USEDMEMORY = new RangeProcessor() {
+
+        @Override
+        public void processRange(Date begin, Date end, ValueProcessor vpro) {
+            List<JvmStat> stats = JvmStat.find("created BETWEEN ? AND ?", begin, end).fetch();
+            for (JvmStat stat : stats) {
+                vpro.processValue(stat.getUsedMemory() / 1024d / 1024d);
+            }
+        }
+    };
+
+    public static void _freeMemory(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) {
+        TagHelper.genTag(args, out, RP_FREEMEMORY);
+    }
+
+    public static void _maxMemory(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) {
+        TagHelper.genTag(args, out, RP_MAXMEMORY);
+    }
+
+    public static void _usedMemory(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) {
+        TagHelper.genTag(args, out, PROC_USEDMEMORY);
     }
 }

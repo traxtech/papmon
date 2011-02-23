@@ -26,17 +26,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import play.Logger;
 
-
 /**
  *
  * @author Arnaud Rolly
  */
-public class LineChartUrlBuilder {
+public class LineChartUrlBuilder implements ValueProcessor {
 
     private StringBuilder buffer = new StringBuilder();
     private boolean firstValue = true;
-    private long minValue = Long.MAX_VALUE;
-    private long maxValue = Long.MIN_VALUE;
+    private double minValue = Double.MAX_VALUE;
+    private double maxValue = Double.MIN_VALUE;
 
     public LineChartUrlBuilder(String title, int width, int height) {
         buffer.append("http://chart.apis.google.com/chart?chxt=y&chs=");
@@ -52,8 +51,8 @@ public class LineChartUrlBuilder {
         buffer.append("&chd=t:");
     }
 
-    public void addValue(long value) {
-        if(firstValue) {
+    public void processValue(double value) {
+        if (firstValue) {
             firstValue = false;
         } else {
             buffer.append(",");
@@ -79,6 +78,4 @@ public class LineChartUrlBuilder {
     public String toString() {
         return buffer.toString();
     }
-
-
 }

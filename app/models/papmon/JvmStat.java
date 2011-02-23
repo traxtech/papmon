@@ -42,7 +42,7 @@ import play.db.jpa.Model;
 @Table(name = "papmon_jvmstat")
 public class JvmStat extends Model {
 
-    @Index(name="idx_papmon_jvm_created")
+    @Index(name = "idx_papmon_jvm_created")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
     public Date created;

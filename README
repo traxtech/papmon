@@ -11,8 +11,16 @@ These statictics are stored in the Play! database.
 
 PAPMON is a regular Play! module, it must be declated in the application.conf. Hibernates statistics are gathered only if 'hibernate.generate_statistics=true' is present in your application.conf.
 
+Some statistics can be used to generate an image (using Google Chart Tools) by using tags:
+
+    #{papmon.jvm.freeMemory title:'Free memory - Last hour', width:350, height:250, range:'hour' /}
+    #{papmon.jvm.maxMemory title:'Max memory - Last hour', width:350, height:250, range:'hour' /}
+    #{papmon.jvm.usedMemory title:'Used memory - Last Hour', width:350, height:250, range:'hour' /}
+
+
 Futures improvements will include:
- - tags to displays statistics using the Google Chart Tools
+ - more tags to displays more statistics
  - statistics cleaners to unclutter the DB
+ - javadoc + user guide
 
 Feels free to drop suggestions :)

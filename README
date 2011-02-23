@@ -1,0 +1,18 @@
+WARNING: This is work in progress, it should not be used on production servers.
+
+This is PAPMON, The Play APlication MONitoring module.
+
+Its goals are to gather every minutes statistics on :
+ - The JVM
+ - Hibernate
+ - Logs
+
+These statictics are stored in the Play! database.
+
+PAPMON is a regular Play! module, it must be declated in the application.conf. Hibernates statistics are gathered only if 'hibernate.generate_statistics=true' is present in your application.conf.
+
+Futures improvements will include:
+ - tags to displays statistics using the Google Chart Tools
+ - statistics cleaners to unclutter the DB
+
+Feels free to drop suggestions :)

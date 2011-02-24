@@ -13,10 +13,8 @@ PAPMON is a regular Play! module, it must be declated in the application.conf. H
 
 Some statistics can be used to generate an image (using Google Chart Tools) by using tags:
 
-    #{papmon.jvm.freeMemory title:'Free memory - Last hour', width:350, height:250, range:'hour' /}
-    #{papmon.jvm.maxMemory title:'Max memory - Last hour', width:350, height:250, range:'hour' /}
-    #{papmon.jvm.usedMemory title:'Used memory - Last Hour', width:350, height:250, range:'hour' /}
-
+    #{papmon.lineChart stat:'jvm/usedPermGenMemory', title:'Used PermGen memory - Last hour', width:350, height:250, range:'hour' /}
+    #{papmon.lineChart stat:'hibernate/queryExecutionCount', title:'# of queries - Last hour', width:350, height:250, range:'hour' /}
 
 Futures improvements will include:
  - more tags to displays more statistics

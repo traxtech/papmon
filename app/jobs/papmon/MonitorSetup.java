@@ -36,6 +36,6 @@ public class MonitorSetup extends Job {
 
     @Override
     public void doJob() throws Exception {
-        //Logger.log4j.getRootLogger().addAppender(new Log4jAppender());
+        Logger.log4j.getRootLogger().addAppender(new Log4jAppender());
     }
 }

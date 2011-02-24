@@ -24,7 +24,6 @@ package tags.papmon;
 
 import groovy.lang.Closure;
 import java.io.PrintWriter;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,43 +48,38 @@ public class PapmonTags extends FastTags {
 
     private static <T> void genTagScan(final Class<T> clazz, final String statName) {
         for (final Field field : clazz.getFields()) {
-            for (Annotation annotation : field.getAnnotations()) {
-                for (Class annoClazz : annotation.getClass().getInterfaces()) {
-                    if (annoClazz.equals(GenTag.class)) {
+            final GenTag genTag = field.getAnnotation(GenTag.class);
+            if (genTag != null) {
+                StringBuilder queryBuf = new StringBuilder();
+                queryBuf.append("SELECT ");
+                queryBuf.append(field.getName());
+                queryBuf.append(" FROM ");
+                queryBuf.append(clazz.getName());
+                queryBuf.append(" WHERE created BETWEEN :beginRange AND :endRange");
+                final String queryVal = queryBuf.toString();
 
-                        StringBuilder queryBuf = new StringBuilder();
-                        queryBuf.append("SELECT ");
-                        queryBuf.append(field.getName());
-                        queryBuf.append(" FROM ");
-                        queryBuf.append(clazz.getName());
-                        queryBuf.append(" WHERE created BETWEEN :beginRange AND :endRange");
-                        final String queryVal = queryBuf.toString();
+                PROCS.put(statName + "/" + field.getName(), new RangeProcessor() {
 
-                        PROCS.put(statName + "/" + field.getName(), new RangeProcessor() {
+                    @Override
+                    public void processRange(Date begin, Date end, ValueProcessor vpro) {
 
-                            @Override
-                            public void processRange(Date begin, Date end, ValueProcessor vpro) {
-
-                                System.err.println(queryVal);
-                                Query q = JPA.em().createQuery(queryVal);
-                                q.setParameter("beginRange", begin);
-                                q.setParameter("endRange", end);
-                                for (Object o : q.getResultList()) {
-                                    if (o instanceof Long) {
-                                        System.err.println((Long)o);
-                                        vpro.processValue((Long)o);
-                                    } else if (o instanceof Double) {
-                                        System.err.println((Double)o);
-                                        vpro.processValue((Double)o);
-                                    } else if (o instanceof Integer) {
-                                        System.err.println((Integer)o);
-                                        vpro.processValue((Integer)o);
-                                    }
-                                }
+                        System.err.println(queryVal);
+                        Query q = JPA.em().createQuery(queryVal);
+                        q.setParameter("beginRange", begin);
+                        q.setParameter("endRange", end);
+                        for (Object o : q.getResultList()) {
+                            double value = 0d;
+                            if (o instanceof Long) {
+                                value = (Long) o;
+                            } else if (o instanceof Double) {
+                                value = (Double) o;
+                            } else if (o instanceof Integer) {
+                                value = (Integer) o;
                             }
-                        });
+                            vpro.processValue(value / genTag.divider());
+                        }
                     }
-                }
+                });
             }
         }
     }
@@ -97,8 +91,7 @@ public class PapmonTags extends FastTags {
     }
 
     public static void _lineChart(Map<?, ?> args, Closure body, PrintWriter out, ExecutableTemplate template, int fromLine) {
-        String stat = (String)args.get("stat");
+        String stat = (String) args.get("stat");
         TagHelper.genHtmlLineChart(args, out, PROCS.get(stat));
     }
-
 }

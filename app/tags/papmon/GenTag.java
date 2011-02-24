@@ -34,5 +34,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface GenTag {
-
+    public static double KB = 1024d;
+    public static double MB = 1048576d;
+    double divider() default 1d;
 }

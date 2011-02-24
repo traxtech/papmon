@@ -47,31 +47,31 @@ public class JvmStat extends Model {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
     public Date created;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "total_mem", nullable = false, updatable = false)
     public long totalMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "free_mem", nullable = false, updatable = false)
     public long freeMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "max_mem", nullable = false, updatable = false)
     public long maxMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "used_permgen_mem", updatable = false)
     public Long usedPermGenMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "max_permgen_mem", updatable = false)
     public Long maxPermGenMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "used_heap_mem", nullable = false, updatable = false)
     public long usedHeapMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "max_heap_mem", nullable = false, updatable = false)
     public long maxHeapMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "used_nonheap_mem", nullable = false, updatable = false)
     public long usedNonHeapMemory;
-    @GenTag
+    @GenTag(divider=GenTag.MB)
     @Column(name = "max_nonheap_mem", nullable = false, updatable = false)
     public long maxNonHeapMemory;
     @GenTag

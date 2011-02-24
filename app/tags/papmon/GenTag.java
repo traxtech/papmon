@@ -20,22 +20,19 @@
  * suits your needs, plase contact <papmon@gedial.com>
  *
  */
-package jobs.papmon;
+package tags.papmon;
 
-import utils.papmon.Log4jAppender;
-import play.Logger;
-import play.jobs.Job;
-import play.jobs.OnApplicationStart;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  *
  * @author Arnaud Rolly
  */
-@OnApplicationStart
-public class MonitorSetup extends Job {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface GenTag {
 
-    @Override
-    public void doJob() throws Exception {
-        //Logger.log4j.getRootLogger().addAppender(new Log4jAppender());
-    }
 }

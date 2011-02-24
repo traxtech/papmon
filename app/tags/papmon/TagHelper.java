@@ -25,7 +25,6 @@ package tags.papmon;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Map;
-import play.db.jpa.Model;
 import utils.papmon.LineChartUrlBuilder;
 import utils.papmon.RangeProcessor;
 
@@ -35,7 +34,7 @@ import utils.papmon.RangeProcessor;
  */
 public class TagHelper {
 
-    public static <T extends Model> void genTag(Map<?, ?> args, PrintWriter out, RangeProcessor rex) {
+    public static void genHtmlLineChart(Map<?, ?> args, PrintWriter out, RangeProcessor rex) {
         String title = (String) args.get("title");
         int width = (Integer) args.get("width");
         int height = (Integer) args.get("height");

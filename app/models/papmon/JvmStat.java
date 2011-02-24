@@ -33,6 +33,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.Index;
 import play.db.jpa.Model;
+import tags.papmon.GenTag;
 
 /**
  * Aggregates statistics extracted from the JVM.
@@ -46,26 +47,37 @@ public class JvmStat extends Model {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", nullable = false, updatable = false)
     public Date created;
+    @GenTag
     @Column(name = "total_mem", nullable = false, updatable = false)
     public long totalMemory;
+    @GenTag
     @Column(name = "free_mem", nullable = false, updatable = false)
     public long freeMemory;
+    @GenTag
     @Column(name = "max_mem", nullable = false, updatable = false)
     public long maxMemory;
+    @GenTag
     @Column(name = "used_permgen_mem", updatable = false)
     public Long usedPermGenMemory;
+    @GenTag
     @Column(name = "max_permgen_mem", updatable = false)
     public Long maxPermGenMemory;
+    @GenTag
     @Column(name = "used_heap_mem", nullable = false, updatable = false)
     public long usedHeapMemory;
+    @GenTag
     @Column(name = "max_heap_mem", nullable = false, updatable = false)
     public long maxHeapMemory;
+    @GenTag
     @Column(name = "used_nonheap_mem", nullable = false, updatable = false)
     public long usedNonHeapMemory;
+    @GenTag
     @Column(name = "max_nonheap_mem", nullable = false, updatable = false)
     public long maxNonHeapMemory;
+    @GenTag
     @Column(name = "loaded_classes", nullable = false, updatable = false)
     public int loadedClassesCount;
+    @GenTag
     @Column(name = "gb_time", nullable = false, updatable = false)
     public long garbageCollectionTimeMillis;
 

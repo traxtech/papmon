@@ -33,6 +33,7 @@ import org.hibernate.annotations.Index;
 import org.hibernate.stat.Statistics;
 import play.db.jpa.JPA;
 import play.db.jpa.Model;
+import tags.papmon.GenTag;
 
 /**
  * Aggregates statistics extracted from Hibernate.
@@ -46,20 +47,35 @@ public class HibernateStat extends Model {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     public Date created;
+    @GenTag
     public long queryExecutionCount;
+    @GenTag
     public long queryExecutionMaxTime;
+    @GenTag
     public long sessionOpenCount;
+    @GenTag
     public long sessionCloseCount;
+    @GenTag
     public long entityLoadCount;
+    @GenTag
     public long entityInsertCount;
+    @GenTag
     public long entityUpdateCount;
+    @GenTag
     public long entityDeleteCount;
+    @GenTag
     public long entityFetchCount;
+    @GenTag
     public long queryCacheHitCount;
+    @GenTag
     public long queryCacheMissCount;
+    @GenTag
     public long queryCachePutCount;
+    @GenTag
     public long secondLevelCacheHitCount;
+    @GenTag
     public long secondLevelCacheMissCount;
+    @GenTag
     public long secondLevelCachePutCount;
 
     public HibernateStat(Date refDate) {
@@ -81,5 +97,6 @@ public class HibernateStat extends Model {
         secondLevelCacheHitCount = stats.getSecondLevelCacheHitCount();
         secondLevelCacheMissCount = stats.getSecondLevelCacheMissCount();
         secondLevelCachePutCount = stats.getSecondLevelCachePutCount();
+        stats.clear();
     }
 }
